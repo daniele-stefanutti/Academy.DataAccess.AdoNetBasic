@@ -1,4 +1,4 @@
-﻿namespace AdoNetBasic.Tests;
+﻿namespace AdoNetBasic;
 
 internal class Constants
 {

@@ -22,7 +22,7 @@ public sealed class Exercise1
 
     [Fact]
     [TestOrder(11)]
-    public void Implement_GetByAirportCode_method_of_AirportRepository()
+    public void Ex11_Implement_GetByAirportCode_method_of_AirportRepository()
     {
         // Arrange
         const string AirportCode = "PER";
@@ -41,7 +41,7 @@ public sealed class Exercise1
 
     [Fact]
     [TestOrder(12)]
-    public void Implement_GetByCountryCode_method_of_AirportRepository()
+    public void Ex12_Implement_GetByCountryCode_method_of_AirportRepository()
     {
         // Arrange
         const string CountryCode = "NPL";
@@ -71,7 +71,7 @@ public sealed class Exercise1
 
     [Fact]
     [TestOrder(13)]
-    public void Implement_GetBySquareArea_method_of_AirportRepository()
+    public void Ex13_Implement_GetBySquareArea_method_of_AirportRepository()
     {
         // Arrange
         (double Longitude, double Latitude) NorthWest = (35d, 40d);
@@ -111,7 +111,7 @@ public sealed class Exercise1
 
     [Fact]
     [TestOrder(21)]
-    public void Implement_Add_method_of_AirportRepository()
+    public void Ex21_Implement_Add_method_of_AirportRepository()
     {
         // Arrange
         Airport atlantaAirport = new()
@@ -141,7 +141,7 @@ public sealed class Exercise1
 
     [Fact]
     [TestOrder(22)]
-    public void Implement_AddRange_method_of_AirportRepository()
+    public void Ex22_Implement_AddRange_method_of_AirportRepository()
     {
         // Arrange
         Airport[] airports = new Airport[]
@@ -195,7 +195,7 @@ public sealed class Exercise1
 
     [Fact]
     [TestOrder(31)]
-    public void Implement_Update_method_of_AirportRepository()
+    public void Ex31_Implement_Update_method_of_AirportRepository()
     {
         // Arrange
         const string AirportCode = "MUC";
@@ -219,7 +219,7 @@ public sealed class Exercise1
 
     [Fact]
     [TestOrder(41)]
-    public void Implement_DeleteByAirportCode_method_of_AirportRepository()
+    public void Ex41_Implement_DeleteByAirportCode_method_of_AirportRepository()
     {
         // Arrange
         const string AirportCode = "ATL";
@@ -236,7 +236,7 @@ public sealed class Exercise1
 
     [Fact]
     [TestOrder(42)]
-    public void Implement_DeleteByCountryCode_method_of_AirportRepository()
+    public void Ex42_Implement_DeleteByCountryCode_method_of_AirportRepository()
     {
         // Arrange
         const string CountryCode = "GER";

@@ -74,8 +74,8 @@ public sealed class Exercise1
     public void Ex13_Implement_GetBySquareArea_method_of_AirportRepository()
     {
         // Arrange
-        (double Longitude, double Latitude) NorthWest = (35d, 40d);
-        (double Longitude, double Latitude) SouthEast = (140d, 180d);
+        (double Longitude, double Latitude) NorthWest = (35d, 140d);
+        (double Longitude, double Latitude) SouthEast = (40d, 180d);
 
         // Act
         IReadOnlyList<Airport> airports = _airportRepository.GetBySquareArea(

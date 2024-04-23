@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AdoNetBasic\AdoNetBasic.csproj" />
+    <ProjectReference Include="..\AdoNetBasic.Business\AdoNetBasic.Business.csproj" />
   </ItemGroup>
 
 </Project>

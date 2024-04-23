@@ -26,6 +26,30 @@ internal static class SqlCommandExtensions
         return results;
     }
 
+    public static Task<IReadOnlyList<T>> ExecuteReadCommandAsync<T>(this SqlCommand command, Func<SqlDataReader, T> getResults)
+        => command.ExecuteReadCommandAsync(Array.Empty<SqlParameter>(), getResults);
+
+    public static Task<IReadOnlyList<T>> ExecuteReadCommandAsync<T>(this SqlCommand command, SqlParameter parameter, Func<SqlDataReader, T> getResults)
+        => command.ExecuteReadCommandAsync(new SqlParameter[] { parameter }, getResults);
+
+    public static async Task<IReadOnlyList<T>> ExecuteReadCommandAsync<T>(this SqlCommand command, SqlParameter[] parameters, Func<SqlDataReader, T> getResults)
+    {
+        using SqlConnection connection = new(Constants.ConnectionString);
+        await connection.OpenAsync();
+
+        command.Connection = connection;
+        command.Parameters.AddRange(parameters);
+
+        using SqlDataReader dataReader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
+
+        List<T> results = new();
+
+        while (await dataReader.ReadAsync())
+            results.Add(getResults(dataReader));
+
+        return results;
+    }
+
     public static int ExecuteWriteCommand(this SqlCommand command, SqlParameter parameter)
         => command.ExecuteWriteCommand(new SqlParameter[] { parameter });
 

@@ -5,12 +5,16 @@ using System.Data.SqlClient;
 
 namespace AdoNetBasic.Repositories;
 
-internal class AirportRepository : IAirportRepository
+public class AirportRepository : IAirportRepository
 {
     #region QUERIES
 
     private const string SelectCommandText = @$"
         SELECT * FROM {nameof(Airport)}
+    ";
+
+    private const string SelectByAirportCodeCommandText = @$"
+        {SelectCommandText} WHERE {nameof(Airport.AirportCode)} = @{nameof(Airport.AirportCode)}
     ";
 
     private const string InsertCommandText = @$"
@@ -55,10 +59,18 @@ internal class AirportRepository : IAirportRepository
     /// </remarks>
     public Airport? GetByAirportCode(string airportCode)
     {
-        using SqlCommand command = new($"{SelectCommandText} WHERE {nameof(Airport.AirportCode)} = @{nameof(Airport.AirportCode)}");
+        using SqlCommand command = new(SelectByAirportCodeCommandText);
         SqlParameter parameter = new($"@{nameof(Airport.AirportCode)}", airportCode);
 
         return command.ExecuteReadCommand(parameter, ParseAirportFromQueryResult).FirstOrDefault();
+    }
+
+    public async Task<Airport?> GetByAirportCodeAsync(string airportCode)
+    {
+        using SqlCommand command = new(SelectByAirportCodeCommandText);
+        SqlParameter parameter = new($"@{nameof(Airport.AirportCode)}", airportCode);
+
+        return (await command.ExecuteReadCommandAsync(parameter, ParseAirportFromQueryResult)).FirstOrDefault();
     }
 
     /// <remarks>

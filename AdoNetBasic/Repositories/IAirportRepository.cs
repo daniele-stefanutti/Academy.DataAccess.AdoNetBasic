@@ -5,6 +5,7 @@ namespace AdoNetBasic.Repositories;
 public interface IAirportRepository
 {
     Airport? GetByAirportCode(string airportCode);
+    Task<Airport?> GetByAirportCodeAsync(string airportCode);
     IReadOnlyList<Airport> GetByCountryCode(string countryCode);
     IReadOnlyList<Airport> GetBySquareArea(double northWestLongitude, double northWestLatitude, double southEastLongitude, double southEastLatitude);
     int Add(Airport airport);

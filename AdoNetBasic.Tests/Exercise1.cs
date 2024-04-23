@@ -9,6 +9,7 @@ namespace AdoNetBasic.Tests;
 /// In order to complete the exercises, implement the required methods in the specified Repository class.
 /// Next, run the tests to check if implemented methods work as expected.
 /// </summary>
+[TestCaseOrderer("AdoNetBasic.Tests.Locals.TestsOrderer", "AdoNetBasic.Tests")]
 public sealed class Exercise1
 {
     private readonly AirportRepository _airportRepository;
@@ -21,7 +22,7 @@ public sealed class Exercise1
     #region 1. READ
 
     [Fact]
-    [TestOrder(11)]
+    [RunSortedByName]
     public void Ex11_Implement_GetByAirportCode_method_of_AirportRepository()
     {
         // Arrange
@@ -40,7 +41,7 @@ public sealed class Exercise1
     }
 
     [Fact]
-    [TestOrder(12)]
+    [RunSortedByName]
     public void Ex12_Implement_GetByCountryCode_method_of_AirportRepository()
     {
         // Arrange
@@ -70,7 +71,7 @@ public sealed class Exercise1
     }
 
     [Fact]
-    [TestOrder(13)]
+    [RunSortedByName]
     public void Ex13_Implement_GetBySquareArea_method_of_AirportRepository()
     {
         // Arrange
@@ -110,7 +111,7 @@ public sealed class Exercise1
     #region 2. CREATE
 
     [Fact]
-    [TestOrder(21)]
+    [RunSortedByName]
     public void Ex21_Implement_Add_method_of_AirportRepository()
     {
         // Arrange
@@ -140,7 +141,7 @@ public sealed class Exercise1
     }
 
     [Fact]
-    [TestOrder(22)]
+    [RunSortedByName]
     public void Ex22_Implement_AddRange_method_of_AirportRepository()
     {
         // Arrange
@@ -194,7 +195,7 @@ public sealed class Exercise1
     #region 3. UPDATE
 
     [Fact]
-    [TestOrder(31)]
+    [RunSortedByName]
     public void Ex31_Implement_Update_method_of_AirportRepository()
     {
         // Arrange
@@ -218,7 +219,7 @@ public sealed class Exercise1
     #region 4. DELETE
 
     [Fact]
-    [TestOrder(41)]
+    [RunSortedByName]
     public void Ex41_Implement_DeleteByAirportCode_method_of_AirportRepository()
     {
         // Arrange
@@ -235,7 +236,7 @@ public sealed class Exercise1
     }
 
     [Fact]
-    [TestOrder(42)]
+    [RunSortedByName]
     public void Ex42_Implement_DeleteByCountryCode_method_of_AirportRepository()
     {
         // Arrange
@@ -245,7 +246,7 @@ public sealed class Exercise1
         int rowsAffected = _airportRepository.DeleteByCountryCode(CountryCode);
 
         // Assert
-        Assert.Equal(1, rowsAffected);
+        Assert.Equal(2, rowsAffected);
 
         IReadOnlyList<Airport> airports = _airportRepository.GetByCountryCode(CountryCode);
         Assert.Empty(airports);

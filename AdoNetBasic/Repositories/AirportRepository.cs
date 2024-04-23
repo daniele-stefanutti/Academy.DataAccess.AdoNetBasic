@@ -2,14 +2,14 @@
 
 namespace AdoNetBasic.Repositories;
 
-internal class AirportRepository
+internal class AirportRepository : IAirportRepository
 {
     #region READ
 
     /// <remarks>
     /// Please, implement this method!
     /// </remarks>
-    public Airport? GetByAirportCode(string AirportCode) => throw new NotImplementedException();
+    public Airport? GetByAirportCode(string airportCode) => throw new NotImplementedException();
 
     /// <remarks>
     /// Please, implement this method!
@@ -66,7 +66,7 @@ internal class AirportRepository
     /// Please, implement this method!
     /// </remarks>
     /// <returns>Number of affected rows</returns>
-    public int DeleteByAirportCode(string AirportCode) => throw new NotImplementedException();
+    public int DeleteByAirportCode(string airportCode) => throw new NotImplementedException();
 
     /// <remarks>
     /// Please, implement this method!

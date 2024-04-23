@@ -2,5 +2,5 @@
 
 internal class Constants
 {
-    public const string ConnectionString = "data source=localhost,14330;initial catalog=Airline;user id=sa;password=Academy2024!;Connect Timeout=30;Encrypt=false;MultiSubnetFailover=True;TrustServerCertificate=True";
+    public const string ConnectionString = "Server=127.0.0.1; Database=Airline; Integrated Security=true; TrustServerCertificate=True";
 }

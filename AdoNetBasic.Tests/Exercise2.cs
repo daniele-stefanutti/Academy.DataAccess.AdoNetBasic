@@ -354,6 +354,7 @@ public sealed class Exercise2
         DateTime DateTimeLeave = new(2015, 12, 11, 10, 30, 0);
         const string CoPilotFirstName = "Maila";
         const string CoPilotLastName = "Battard";
+        const int FlightInstanceId = 5;
 
         // Act
         int actual = await _flightInstanceService.UpdateFlightInstanceCoPilotAsync(FlightNo, DateTimeLeave, CoPilotFirstName, CoPilotLastName);
@@ -361,7 +362,7 @@ public sealed class Exercise2
         // Assert
         Assert.Equal(1, actual);
 
-        FlightInstance? flightInstance = await _flightInstanceRepository.GetByInstanceIdAsync(5);
+        FlightInstance? flightInstance = await _flightInstanceRepository.GetByInstanceIdAsync(FlightInstanceId);
         Assert.NotNull(flightInstance);
         Assert.Equal(2, flightInstance.CoPilotAboardId);
     }
@@ -394,11 +395,11 @@ public sealed class Exercise2
         // Arrange
         const string AirportCode = "DXB";
         TimeSpan Delay = new(1, 30, 0);
-        const int firstFlightInstanceId = 1;
-        const int secondFlightInstanceId = 7;
+        const int FirstFlightInstanceId = 1;
+        const int SecondFlightInstanceId = 7;
 
-        DateTime firstFlightExpectedDateTimeArrive = (await _flightInstanceRepository.GetByInstanceIdAsync(firstFlightInstanceId))!.DateTimeArrive + Delay;
-        DateTime secondFlightExpectedDateTimeArrive = (await _flightInstanceRepository.GetByInstanceIdAsync(secondFlightInstanceId))!.DateTimeArrive + Delay;
+        DateTime firstFlightExpectedDateTimeArrive = (await _flightInstanceRepository.GetByInstanceIdAsync(FirstFlightInstanceId))!.DateTimeArrive + Delay;
+        DateTime secondFlightExpectedDateTimeArrive = (await _flightInstanceRepository.GetByInstanceIdAsync(SecondFlightInstanceId))!.DateTimeArrive + Delay;
 
         // Act
         int actual = await _flightInstanceService.SetDelayForFlightInstancesArrivingFromAirportAsync(AirportCode, Delay);
@@ -406,10 +407,10 @@ public sealed class Exercise2
         // Assert
         Assert.Equal(2, actual);
 
-        DateTime firstFlightActualDateTimeArrive = (await _flightInstanceRepository.GetByInstanceIdAsync(firstFlightInstanceId))!.DateTimeArrive;
+        DateTime firstFlightActualDateTimeArrive = (await _flightInstanceRepository.GetByInstanceIdAsync(FirstFlightInstanceId))!.DateTimeArrive;
         Assert.Equal(firstFlightExpectedDateTimeArrive, firstFlightActualDateTimeArrive);
 
-        DateTime secondFlightActualDateTimeArrive = (await _flightInstanceRepository.GetByInstanceIdAsync(secondFlightInstanceId))!.DateTimeArrive;
+        DateTime secondFlightActualDateTimeArrive = (await _flightInstanceRepository.GetByInstanceIdAsync(SecondFlightInstanceId))!.DateTimeArrive;
         Assert.Equal(secondFlightExpectedDateTimeArrive, secondFlightActualDateTimeArrive);
     }
 

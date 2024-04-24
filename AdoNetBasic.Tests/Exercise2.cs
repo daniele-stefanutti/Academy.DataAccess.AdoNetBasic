@@ -7,7 +7,7 @@ namespace AdoNetBasic.Tests;
 
 /// <summary>
 /// ### DO NOT CHANGE THE CONTENT OF THIS TEST CLASS ###
-/// In order to complete the exercises, implement the required methods in the specified Repository class.
+/// In order to complete the exercises, implement the required methods in the specified Service and Repository classes.
 /// Next, run the tests to check if implemented methods work as expected.
 /// </summary>
 public sealed class Exercise2

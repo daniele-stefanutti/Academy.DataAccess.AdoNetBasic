@@ -244,13 +244,7 @@ public sealed class Exercise2
         IReadOnlyList<FlightInstanceDto> actual = await _flightInstanceService.GetAllFlightInstancesWithinDateTimeLeaveRangeAsync(StartDateTimeLeave, EndDateTimeLeave);
 
         // Assert
-        Assert.Equal(2, actual.Count);
-
-        FlightInstanceDto firstFlightInstance = Assert.Single(actual.Where(f => f.FlightNo == expected[0].FlightNo));
-        Assert.Equal(expected[0], firstFlightInstance);
-
-        FlightInstanceDto secondFlightInstance = Assert.Single(actual.Where(f => f.FlightNo == expected[1].FlightNo));
-        Assert.Equal(expected[1], secondFlightInstance);
+        AssertAreEqualFlightInstanceDtoLists(expected, actual);
     }
 
     [Fact]
@@ -330,8 +324,7 @@ public sealed class Exercise2
         IReadOnlyList<FlightInstanceDto> actual = await _flightInstanceService.GetAllFlightInstancesServedByPlaneManufacturerAsync(PlaneManufacturerName);
 
         // Assert
-        FlightInstanceDto flightInstance = Assert.Single(actual);
-        Assert.Equal(expected[0], flightInstance);
+        AssertAreEqualFlightInstanceDtoLists(expected, actual);
     }
 
     [Fact]
@@ -399,22 +392,25 @@ public sealed class Exercise2
     {
 
         // Arrange
-        const string AirportCode = "MEL";
+        const string AirportCode = "DXB";
         TimeSpan Delay = new(1, 30, 0);
+        const int firstFlightInstanceId = 1;
+        const int secondFlightInstanceId = 7;
+
+        DateTime firstFlightExpectedDateTimeArrive = (await _flightInstanceRepository.GetByInstanceIdAsync(firstFlightInstanceId))!.DateTimeArrive + Delay;
+        DateTime secondFlightExpectedDateTimeArrive = (await _flightInstanceRepository.GetByInstanceIdAsync(secondFlightInstanceId))!.DateTimeArrive + Delay;
 
         // Act
         int actual = await _flightInstanceService.SetDelayForFlightInstancesArrivingFromAirportAsync(AirportCode, Delay);
 
         // Assert
-        Assert.Equal(1, actual);
+        Assert.Equal(2, actual);
 
-        FlightInstance? firstFlightInstance = await _flightInstanceRepository.GetByInstanceIdAsync(11);
-        Assert.NotNull(firstFlightInstance);
-        Assert.Equal(new DateTime(2015, 12, 14, 12, 0, 0), firstFlightInstance.DateTimeArrive);
+        DateTime firstFlightActualDateTimeArrive = (await _flightInstanceRepository.GetByInstanceIdAsync(firstFlightInstanceId))!.DateTimeArrive;
+        Assert.Equal(firstFlightExpectedDateTimeArrive, firstFlightActualDateTimeArrive);
 
-        FlightInstance? secondFlightInstance = await _flightInstanceRepository.GetByInstanceIdAsync(16);
-        Assert.NotNull(secondFlightInstance);
-        Assert.Equal(new DateTime(2017, 12, 14, 12, 0, 0), secondFlightInstance.DateTimeArrive);
+        DateTime secondFlightActualDateTimeArrive = (await _flightInstanceRepository.GetByInstanceIdAsync(secondFlightInstanceId))!.DateTimeArrive;
+        Assert.Equal(secondFlightExpectedDateTimeArrive, secondFlightActualDateTimeArrive);
     }
 
     [Fact]
@@ -430,6 +426,42 @@ public sealed class Exercise2
         // Assert
         Assert.Equal(0, actual);
         Assert.Equal("SetDelayForFlightInstancesArrivingFromAirportAsync failure: Delay cannot be zero", _flightInstanceService.ErrorMessage);
+    }
+
+    #endregion
+
+    #region Locals
+
+    private static void AssertAreEqualFlightInstanceDtoLists(IReadOnlyList<FlightInstanceDto> expected, IReadOnlyList<FlightInstanceDto> actual)
+    {
+        Assert.Equal(expected.Count, actual.Count);
+
+        foreach (FlightInstanceDto expectedFlightInstance in expected)
+        {
+            FlightInstanceDto? actualFlightInstance = actual.SingleOrDefault(fi => fi.FlightNo == expectedFlightInstance.FlightNo && fi.DateTimeLeave == expectedFlightInstance.DateTimeLeave);
+            Assert.NotNull(actualFlightInstance);
+            AssertAreEqualFlightInstanceDtos(expectedFlightInstance, actualFlightInstance);
+        }
+    }
+
+    private static void AssertAreEqualFlightInstanceDtos(FlightInstanceDto expected, FlightInstanceDto actual)
+    {
+        Assert.Equal(expected.FlightNo, actual.FlightNo);
+        Assert.Equal(expected.DepartTo, actual.DepartTo);
+        Assert.Equal(expected.ArriveFrom, actual.ArriveFrom);
+        Assert.Equal(expected.DateTimeLeave, actual.DateTimeLeave);
+        Assert.Equal(expected.DateTimeArrive, actual.DateTimeArrive);
+        Assert.Equal(expected.Plane, actual.Plane);
+        Assert.Equal(expected.Pilot, actual.Pilot);
+
+        Assert.Equal(expected.AllAttendants.Count, actual.AllAttendants.Count);
+
+        foreach (AttendantDto expectedAttendant in expected.AllAttendants)
+        {
+            AttendantDto? actualAttendant = actual.AllAttendants.SingleOrDefault(a => a.FirstName == expectedAttendant.FirstName && a.LastName == expectedAttendant.LastName);
+            Assert.NotNull(actualAttendant);
+            Assert.Equal(expectedAttendant, actualAttendant);
+        }
     }
 
     #endregion

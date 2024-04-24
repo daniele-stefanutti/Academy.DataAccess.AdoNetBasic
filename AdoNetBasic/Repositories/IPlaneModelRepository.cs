@@ -1,8 +1,8 @@
-﻿namespace AdoNetBasic.Repositories;
+﻿using AdoNetBasic.Models;
+
+namespace AdoNetBasic.Repositories;
 
 public interface IPlaneModelRepository
 {
-    /// <remarks>
-    /// Please, implement this interface
-    /// </remarks>
+    Task<PlaneModel?> GetByModelNumberAsync(string modelNumber);
 }

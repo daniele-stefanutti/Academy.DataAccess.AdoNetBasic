@@ -7,7 +7,26 @@ namespace AdoNetBasic.Repositories;
 
 public class FlightRepository : IFlightRepository
 {
+    #region QUERIES
+
+    private const string SelectCommandText = @$"
+        SELECT f.* FROM {nameof(Flight)} f
+    ";
+
+    #endregion
+
     #region READ
+
+    public async Task<Flight?> GetByFlightNoAsync(string flightNo)
+    {
+        using SqlCommand command = new(@$"
+            {SelectCommandText}
+            WHERE f.{nameof(Flight.FlightNo)} = @{nameof(Flight.FlightNo)}
+        ");
+        SqlParameter parameter = new($"@{nameof(Flight.FlightNo)}", flightNo);
+
+        return (await command.ExecuteReadCommandAsync(parameter, ParseFlightFromQueryResult)).FirstOrDefault();
+    }
 
     public async Task<Flight?> GetWithLongestDistanceAsync()
     {
@@ -23,8 +42,7 @@ public class FlightRepository : IFlightRepository
     public async Task<IReadOnlyList<Flight>> GetDepartingFromCountryAsync(string countryCode)
     {
         using SqlCommand command = new(@$"
-            SELECT f.*
-            FROM {nameof(Flight)} f
+            {SelectCommandText}
                 LEFT JOIN {nameof(Airport)} a ON a.{nameof(Airport.AirportCode)} = f.{nameof(Flight.FlightArriveFrom)}
             WHERE a.{nameof(Airport.CountryCode)} = @{nameof(Airport.CountryCode)}
         ");

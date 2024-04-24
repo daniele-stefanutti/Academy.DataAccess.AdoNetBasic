@@ -1,8 +1,9 @@
-﻿namespace AdoNetBasic.Repositories;
+﻿using AdoNetBasic.Models;
+
+namespace AdoNetBasic.Repositories;
 
 public interface IFlightAttendantRepository
 {
-    /// <remarks>
-    /// Please, implement this interface
-    /// </remarks>
+    Task<IReadOnlyList<FlightAttendant>> GetAllByFlightInstanceIdAsync(int flightInstanceId);
+    Task<bool> IsMentorAsync(int attendantId);
 }

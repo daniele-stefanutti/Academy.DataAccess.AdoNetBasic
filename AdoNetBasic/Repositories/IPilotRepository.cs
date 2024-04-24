@@ -1,8 +1,9 @@
-﻿namespace AdoNetBasic.Repositories;
+﻿using AdoNetBasic.Models;
+
+namespace AdoNetBasic.Repositories;
 
 public interface IPilotRepository
 {
-    /// <remarks>
-    /// Please, implement this interface
-    /// </remarks>
+    Task<Pilot?> GetByPilotIdAsync(int pilotId);
+    Task<Pilot?> GetByFirstNameAndLastNameAsync(string firstName, string lastName);
 }

@@ -137,7 +137,7 @@ public class AirportRepository : IAirportRepository
     public int AddRange(IReadOnlyList<Airport> airports)
     {
         using SqlCommand command = new(InsertCommandText);
-        IReadOnlyList<SqlParameter[]> parametersSet = airports.Select(a => GetAirportParameters(a)).ToList();
+        IReadOnlyList<SqlParameter[]> parametersSet = airports.Select(GetAirportParameters).ToList();
 
         return command.ExecuteWriteCommand(parametersSet);
     }

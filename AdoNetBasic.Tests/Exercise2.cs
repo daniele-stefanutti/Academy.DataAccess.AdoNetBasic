@@ -1,5 +1,6 @@
 using AdoNetBasic.Business.Dtos;
 using AdoNetBasic.Business.Services;
+using AdoNetBasic.Models;
 using AdoNetBasic.Repositories;
 
 namespace AdoNetBasic.Tests;
@@ -12,10 +13,26 @@ namespace AdoNetBasic.Tests;
 public sealed class Exercise2
 {
     private readonly FlightService _flightService;
+    private readonly FlightInstanceRepository _flightInstanceRepository;
+    private readonly FlightInstanceService _flightInstanceService;
 
     public Exercise2()
     {
-        _flightService = new FlightService(new FlightRepository(), new AirportRepository(), new CountryRepository());
+        _flightService = new FlightService(
+            new FlightRepository(),
+            new AirportRepository(),
+            new CountryRepository()
+        );
+        _flightInstanceRepository = new FlightInstanceRepository();
+        _flightInstanceService = new
+        (
+            _flightInstanceRepository,
+            new PlaneDetailRepository(),
+            new PlaneModelRepository(),
+            new PilotRepository(),
+            new FlightAttendantRepository(),
+            new FlightRepository()
+        );
     }
 
     #region 1. FlightService (EXAMPLE)
@@ -125,6 +142,294 @@ public sealed class Exercise2
         // Assert
         Assert.Empty(actual);
         Assert.Equal("GetAllFlightsDepartingFromCountryAsync failure: No Flight has been found in database", _flightService.ErrorMessage);
+    }
+
+    #endregion
+
+    #region 2. FlightInstanceService - GetAllFlightInstancesWithinDateTimeLeaveRange
+
+    [Fact]
+    public async Task Ex21_Implement_GetAllFlightInstancesWithinDateTimeLeaveRange_method_of_FlightInstanceService()
+    {
+        // Arrange
+        DateTime StartDateTimeLeave = new(2017, 12, 10);
+        DateTime EndDateTimeLeave = new(2017, 12, 13);
+
+        IReadOnlyList<FlightInstanceDto> expected = new List<FlightInstanceDto>()
+        {
+            new
+            (
+                FlightNo: "JKL980",
+                DepartTo: "MEL",
+                ArriveFrom: "TIA",
+                DateTimeLeave: new DateTime(2017, 12, 11, 10, 30, 0),
+                DateTimeArrive: new DateTime(2017, 12, 14, 10, 30, 0),
+                Plane: new
+                (
+                    ManufacturerName: "Boeing",
+                    ModelNumber: "777",
+                    RegistrationNo: "BO-1990"
+                ),
+                Pilot: new
+                (
+                    FirstName: "Tom",
+                    LastName: "Hardy",
+                    Age: 46
+                ),
+                AllAttendants: new AttendantDto[]
+                {
+                    new(
+                        FirstName: "John",
+                        LastName: "Rai",
+                        IsMentor: true
+                    ),
+                    new(
+                        FirstName: "Pramesh",
+                        LastName: "Shrestha",
+                        IsMentor: true
+                    ),
+                    new(
+                        FirstName: "Ram",
+                        LastName: "Sharma",
+                        IsMentor: true
+                    ),
+                    new(
+                        FirstName: "Amol",
+                        LastName: "Pokharel",
+                        IsMentor: true
+                    )
+                }
+            ),
+            new
+            (
+                FlightNo: "STH650",
+                DepartTo: "PER",
+                ArriveFrom: "MEL",
+                DateTimeLeave: new DateTime(2017, 12, 11, 10, 30, 0),
+                DateTimeArrive: new DateTime(2017, 12, 14, 10, 30, 0),
+                Plane: new
+                (
+                    ManufacturerName: "Airbus",
+                    ModelNumber: "A390",
+                    RegistrationNo: "AU-1989"
+                ),
+                Pilot: new
+                (
+                    FirstName: "Huge",
+                    LastName: "Glass",
+                    Age: 43
+                ),
+                AllAttendants: new AttendantDto[]
+                {
+                    new(
+                        FirstName: "Greg",
+                        LastName: "Nepal",
+                        IsMentor: true
+                    ),
+                    new(
+                        FirstName: "Hari",
+                        LastName: "Cobin",
+                        IsMentor: true
+                    ),
+                    new(
+                        FirstName: "Pratik",
+                        LastName: "Shrestha",
+                        IsMentor: false
+                    )
+                }
+            )
+        };
+
+        // Act
+        IReadOnlyList<FlightInstanceDto> actual = await _flightInstanceService.GetAllFlightInstancesWithinDateTimeLeaveRange(StartDateTimeLeave, EndDateTimeLeave);
+
+        // Assert
+        Assert.Equal(2, actual.Count);
+
+        FlightInstanceDto firstFlightInstance = Assert.Single(actual.Where(f => f.FlightNo == expected[0].FlightNo));
+        Assert.Equal(expected[0], firstFlightInstance);
+
+        FlightInstanceDto secondFlightInstance = Assert.Single(actual.Where(f => f.FlightNo == expected[1].FlightNo));
+        Assert.Equal(expected[1], secondFlightInstance);
+    }
+
+    [Fact]
+    public async Task Ex22_Implement_GetAllFlightInstancesWithinDateTimeLeaveRange_method_of_FlightInstanceService()
+    {
+        // Arrange
+        DateTime StartDateTimeLeave = new(2016, 06, 15);
+        DateTime EndDateTimeLeave = new(2016, 07, 15);
+
+        // Act
+        IReadOnlyList<FlightInstanceDto> actual = await _flightInstanceService.GetAllFlightInstancesWithinDateTimeLeaveRange(StartDateTimeLeave, EndDateTimeLeave);
+
+        // Assert
+        Assert.Empty(actual);
+        Assert.Equal("GetAllFlightInstancesWithinDateTimeLeaveRange failure: No FlightInstance has been found in database", _flightInstanceService.ErrorMessage);
+    }
+
+    #endregion
+
+    #region 3. FlightInstanceService - GetAllFlightInstancesServedByPlaneManufacturer
+
+    [Fact]
+    public async Task Ex31_Implement_GetAllFlightInstancesServedByPlaneManufacturer_method_of_FlightInstanceService()
+    {
+
+        // Arrange
+        const string PlaneManufacturerName = "Boeing";
+
+        IReadOnlyList<FlightInstanceDto> expected = new List<FlightInstanceDto>()
+        {
+            new
+            (
+                FlightNo: "JKL980",
+                DepartTo: "MEL",
+                ArriveFrom: "TIA",
+                DateTimeLeave: new DateTime(2017, 12, 11, 10, 30, 0),
+                DateTimeArrive: new DateTime(2017, 12, 14, 10, 30, 0),
+                Plane: new
+                (
+                    ManufacturerName: "Boeing",
+                    ModelNumber: "777",
+                    RegistrationNo: "BO-1990"
+                ),
+                Pilot: new
+                (
+                    FirstName: "Tom",
+                    LastName: "Hardy",
+                    Age: 46
+                ),
+                AllAttendants: new AttendantDto[]
+                {
+                    new(
+                        FirstName: "John",
+                        LastName: "Rai",
+                        IsMentor: true
+                    ),
+                    new(
+                        FirstName: "Pramesh",
+                        LastName: "Shrestha",
+                        IsMentor: true
+                    ),
+                    new(
+                        FirstName: "Ram",
+                        LastName: "Sharma",
+                        IsMentor: true
+                    ),
+                    new(
+                        FirstName: "Amol",
+                        LastName: "Pokharel",
+                        IsMentor: true
+                    )
+                }
+            )
+        };
+
+        // Act
+        IReadOnlyList<FlightInstanceDto> actual = await _flightInstanceService.GetAllFlightInstancesServedByPlaneManufacturer(PlaneManufacturerName);
+
+        // Assert
+        FlightInstanceDto flightInstance = Assert.Single(actual);
+        Assert.Equal(expected[0], flightInstance);
+    }
+
+    [Fact]
+    public async Task Ex32_Implement_GetAllFlightInstancesServedByPlaneManufacturer_method_of_FlightInstanceService()
+    {
+        // Arrange
+        const string PlaneManufacturerName = "Messerschmitt";
+
+        // Act
+        IReadOnlyList<FlightInstanceDto> actual = await _flightInstanceService.GetAllFlightInstancesServedByPlaneManufacturer(PlaneManufacturerName);
+
+        // Assert
+        Assert.Empty(actual);
+        Assert.Equal("GetAllFlightInstancesServedByPlaneManufacturer failure: No FlightInstance has been found in database", _flightInstanceService.ErrorMessage);
+    }
+
+    #endregion
+
+    #region 4. FlightInstanceService - UpdateFlightInstanceCoPilot
+
+    [Fact]
+    public async Task Ex41_Implement_UpdateFlightInstanceCoPilot_method_of_FlightInstanceService()
+    {
+
+        // Arrange
+        const string FlightNo = "QR340";
+        DateTime DateTimeLeave = new(2015, 12, 11, 10, 30, 0);
+        const string CoPilotFirstName = "Maila";
+        const string CoPilotLastName = "Battard";
+
+        // Act
+        int actual = await _flightInstanceService.UpdateFlightInstanceCoPilot(FlightNo, DateTimeLeave, CoPilotFirstName, CoPilotLastName);
+
+        // Assert
+        Assert.Equal(1, actual);
+
+        FlightInstance? flightInstance = await _flightInstanceRepository.GetByIdAsync(5);
+        Assert.NotNull(flightInstance);
+        Assert.Equal(2, flightInstance.CoPilotAboardId);
+    }
+
+    [Fact]
+    public async Task Ex42_Implement_UpdateFlightInstanceCoPilot_method_of_FlightInstanceService()
+    {
+        // Arrange
+        const string FlightNo = "FK001";
+        DateTime DateTimeLeave = new(1918, 04, 21, 10, 30, 0);
+        const string CoPilotFirstName = "Lothar";
+        const string CoPilotLastName = "von Richthofen";
+
+        // Act
+        int actual = await _flightInstanceService.UpdateFlightInstanceCoPilot(FlightNo, DateTimeLeave, CoPilotFirstName, CoPilotLastName);
+
+        // Assert
+        Assert.Equal(0, actual);
+        Assert.Equal("UpdateFlightInstanceCoPilot failure: No FlightInstance has been found in database", _flightInstanceService.ErrorMessage);
+    }
+
+    #endregion
+
+    #region 5. FlightInstanceService - SetDelayForFlightInstancesArrivingFromAirport
+
+    [Fact]
+    public async Task Ex51_Implement_SetDelayForFlightInstancesArrivingFromAirport_method_of_FlightInstanceService()
+    {
+
+        // Arrange
+        const string AirportCode = "MEL";
+        TimeSpan Delay = new(1, 30, 0);
+
+        // Act
+        int actual = await _flightInstanceService.SetDelayForFlightInstancesArrivingFromAirport(AirportCode, Delay);
+
+        // Assert
+        Assert.Equal(1, actual);
+
+        FlightInstance? firstFlightInstance = await _flightInstanceRepository.GetByIdAsync(11);
+        Assert.NotNull(firstFlightInstance);
+        Assert.Equal(new DateTime(2015, 12, 14, 12, 0, 0), firstFlightInstance.DateTimeArrive);
+
+        FlightInstance? secondFlightInstance = await _flightInstanceRepository.GetByIdAsync(16);
+        Assert.NotNull(secondFlightInstance);
+        Assert.Equal(new DateTime(2017, 12, 14, 12, 0, 0), secondFlightInstance.DateTimeArrive);
+    }
+
+    [Fact]
+    public async Task Ex52_Implement_SetDelayForFlightInstancesArrivingFromAirport_method_of_FlightInstanceService()
+    {
+        // Arrange
+        const string AirportCode = "IJK";
+        TimeSpan Delay = new(0, 0, 0);
+
+        // Act
+        int actual = await _flightInstanceService.SetDelayForFlightInstancesArrivingFromAirport(AirportCode, Delay);
+
+        // Assert
+        Assert.Equal(0, actual);
+        Assert.Equal("SetDelayForFlightInstancesArrivingFromAirport failure: Delay cannot be zero", _flightInstanceService.ErrorMessage);
     }
 
     #endregion

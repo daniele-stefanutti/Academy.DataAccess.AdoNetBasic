@@ -1,4 +1,5 @@
 ﻿using AdoNetBasic.Business.Dtos;
+using AdoNetBasic.Repositories;
 
 namespace AdoNetBasic.Business.Services;
 
@@ -11,6 +12,25 @@ namespace AdoNetBasic.Business.Services;
 /// </remarks>
 internal sealed class FlightInstanceService : BaseService, IFlightInstanceService
 {
+    private readonly IFlightInstanceRepository _flightInstanceRepository;
+    private readonly IPlaneDetailRepository _planeDetailRepository;
+    private readonly IPlaneModelRepository _planeModelRepository;
+    private readonly IPilotRepository _pilotRepository;
+    private readonly IFlightAttendantRepository _flightAttendantRepository;
+    private readonly IFlightRepository _flightRepository;
+
+    public FlightInstanceService(IFlightInstanceRepository flightInstanceRepository, IPlaneDetailRepository planeDetailRepository,
+        IPlaneModelRepository planeModelRepository, IPilotRepository pilotRepository, IFlightAttendantRepository flightAttendantRepository,
+        IFlightRepository flightRepository)
+    {
+        _flightInstanceRepository = flightInstanceRepository;
+        _planeDetailRepository = planeDetailRepository;
+        _planeModelRepository = planeModelRepository;
+        _pilotRepository = pilotRepository;
+        _flightAttendantRepository = flightAttendantRepository;
+        _flightRepository = flightRepository;
+    }
+
     /// <summary>
     /// Retrieve flight instances having leaving date and time within the given range
     /// </summary>

@@ -3,5 +3,6 @@
 public sealed record PilotDto
 (
     string FirstName,
-    string LastName
+    string LastName,
+    int Age
 );

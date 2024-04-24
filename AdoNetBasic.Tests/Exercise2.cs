@@ -241,7 +241,7 @@ public sealed class Exercise2
         };
 
         // Act
-        IReadOnlyList<FlightInstanceDto> actual = await _flightInstanceService.GetAllFlightInstancesWithinDateTimeLeaveRange(StartDateTimeLeave, EndDateTimeLeave);
+        IReadOnlyList<FlightInstanceDto> actual = await _flightInstanceService.GetAllFlightInstancesWithinDateTimeLeaveRangeAsync(StartDateTimeLeave, EndDateTimeLeave);
 
         // Assert
         Assert.Equal(2, actual.Count);
@@ -261,7 +261,7 @@ public sealed class Exercise2
         DateTime EndDateTimeLeave = new(2016, 07, 15);
 
         // Act
-        IReadOnlyList<FlightInstanceDto> actual = await _flightInstanceService.GetAllFlightInstancesWithinDateTimeLeaveRange(StartDateTimeLeave, EndDateTimeLeave);
+        IReadOnlyList<FlightInstanceDto> actual = await _flightInstanceService.GetAllFlightInstancesWithinDateTimeLeaveRangeAsync(StartDateTimeLeave, EndDateTimeLeave);
 
         // Assert
         Assert.Empty(actual);
@@ -327,7 +327,7 @@ public sealed class Exercise2
         };
 
         // Act
-        IReadOnlyList<FlightInstanceDto> actual = await _flightInstanceService.GetAllFlightInstancesServedByPlaneManufacturer(PlaneManufacturerName);
+        IReadOnlyList<FlightInstanceDto> actual = await _flightInstanceService.GetAllFlightInstancesServedByPlaneManufacturerAsync(PlaneManufacturerName);
 
         // Assert
         FlightInstanceDto flightInstance = Assert.Single(actual);
@@ -341,7 +341,7 @@ public sealed class Exercise2
         const string PlaneManufacturerName = "Messerschmitt";
 
         // Act
-        IReadOnlyList<FlightInstanceDto> actual = await _flightInstanceService.GetAllFlightInstancesServedByPlaneManufacturer(PlaneManufacturerName);
+        IReadOnlyList<FlightInstanceDto> actual = await _flightInstanceService.GetAllFlightInstancesServedByPlaneManufacturerAsync(PlaneManufacturerName);
 
         // Assert
         Assert.Empty(actual);
@@ -363,7 +363,7 @@ public sealed class Exercise2
         const string CoPilotLastName = "Battard";
 
         // Act
-        int actual = await _flightInstanceService.UpdateFlightInstanceCoPilot(FlightNo, DateTimeLeave, CoPilotFirstName, CoPilotLastName);
+        int actual = await _flightInstanceService.UpdateFlightInstanceCoPilotAsync(FlightNo, DateTimeLeave, CoPilotFirstName, CoPilotLastName);
 
         // Assert
         Assert.Equal(1, actual);
@@ -383,7 +383,7 @@ public sealed class Exercise2
         const string CoPilotLastName = "von Richthofen";
 
         // Act
-        int actual = await _flightInstanceService.UpdateFlightInstanceCoPilot(FlightNo, DateTimeLeave, CoPilotFirstName, CoPilotLastName);
+        int actual = await _flightInstanceService.UpdateFlightInstanceCoPilotAsync(FlightNo, DateTimeLeave, CoPilotFirstName, CoPilotLastName);
 
         // Assert
         Assert.Equal(0, actual);
@@ -403,7 +403,7 @@ public sealed class Exercise2
         TimeSpan Delay = new(1, 30, 0);
 
         // Act
-        int actual = await _flightInstanceService.SetDelayForFlightInstancesArrivingFromAirport(AirportCode, Delay);
+        int actual = await _flightInstanceService.SetDelayForFlightInstancesArrivingFromAirportAsync(AirportCode, Delay);
 
         // Assert
         Assert.Equal(1, actual);
@@ -425,7 +425,7 @@ public sealed class Exercise2
         TimeSpan Delay = new(0, 0, 0);
 
         // Act
-        int actual = await _flightInstanceService.SetDelayForFlightInstancesArrivingFromAirport(AirportCode, Delay);
+        int actual = await _flightInstanceService.SetDelayForFlightInstancesArrivingFromAirportAsync(AirportCode, Delay);
 
         // Assert
         Assert.Equal(0, actual);

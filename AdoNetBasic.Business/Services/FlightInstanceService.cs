@@ -8,7 +8,7 @@ namespace AdoNetBasic.Business.Services;
 ///     + implement needed Model classes
 ///     + implement needed Repository classes
 ///     + implement needed Mappers classes
-///     + implement service class methods
+///     + implement service class methods by using asynchronous ADO.NET methods
 /// </remarks>
 internal sealed class FlightInstanceService : BaseService, IFlightInstanceService
 {
@@ -36,20 +36,14 @@ internal sealed class FlightInstanceService : BaseService, IFlightInstanceServic
     /// </summary>
     /// <param name="startDateTimeLeave">Beginning date and time of the range</param>
     /// <param name="endDateTimeLeave">Ending date and time of the range</param>
-    /// <remarks>
-    /// Please, implement this method by using asynchronous ADO.NET methods!
-    /// </remarks>
-    public Task<IReadOnlyList<FlightInstanceDto>> GetAllFlightInstancesWithinDateTimeLeaveRange(DateTime startDateTimeLeave, DateTime endDateTimeLeave)
+    public Task<IReadOnlyList<FlightInstanceDto>> GetAllFlightInstancesWithinDateTimeLeaveRangeAsync(DateTime startDateTimeLeave, DateTime endDateTimeLeave)
         => throw new NotImplementedException();
 
     /// <summary>
     /// Retrieve flight instances served by a plane produced by the given manufacturer
     /// </summary>
     /// <param name="planeManufacturerName">Name of the plane's manufacturer</param>
-    /// <remarks>
-    /// Please, implement this method by using asynchronous ADO.NET methods!
-    /// </remarks>
-    public Task<IReadOnlyList<FlightInstanceDto>> GetAllFlightInstancesServedByPlaneManufacturer(string planeManufacturerName)
+    public Task<IReadOnlyList<FlightInstanceDto>> GetAllFlightInstancesServedByPlaneManufacturerAsync(string planeManufacturerName)
         => throw new NotImplementedException();
 
     /// <summary>
@@ -60,7 +54,7 @@ internal sealed class FlightInstanceService : BaseService, IFlightInstanceServic
     /// <param name="coPilotFirstName">First name of the updated co-pilot</param>
     /// <param name="coPilotLastName">Last name of the updated co-pilot</param>
     /// <returns>Number of affected rows</returns>
-    public Task<int> UpdateFlightInstanceCoPilot(string flightNo, DateTime dateTimeLeave, string coPilotFirstName, string coPilotLastName)
+    public Task<int> UpdateFlightInstanceCoPilotAsync(string flightNo, DateTime dateTimeLeave, string coPilotFirstName, string coPilotLastName)
         => throw new NotImplementedException();
 
     /// <summary>
@@ -69,6 +63,6 @@ internal sealed class FlightInstanceService : BaseService, IFlightInstanceServic
     /// <param name="airportCode">Code of the departure airport</param>
     /// <param name="delay">Delay on arrival date and time</param>
     /// <returns>Number of affected rows</returns>
-    public Task<int> SetDelayForFlightInstancesArrivingFromAirport(string airportCode, TimeSpan delay)
+    public Task<int> SetDelayForFlightInstancesArrivingFromAirportAsync(string airportCode, TimeSpan delay)
         => throw new NotImplementedException();
 }

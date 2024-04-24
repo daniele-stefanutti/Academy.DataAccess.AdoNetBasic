@@ -146,10 +146,10 @@ public sealed class Exercise2
 
     #endregion
 
-    #region 2. FlightInstanceService - GetAllFlightInstancesWithinDateTimeLeaveRange
+    #region 2. FlightInstanceService - GetAllFlightInstancesWithinDateTimeLeaveRangeAsync
 
     [Fact]
-    public async Task Ex21_Implement_GetAllFlightInstancesWithinDateTimeLeaveRange_method_of_FlightInstanceService()
+    public async Task Ex21_Implement_GetAllFlightInstancesWithinDateTimeLeaveRangeAsync_method_of_FlightInstanceService()
     {
         // Arrange
         DateTime StartDateTimeLeave = new(2017, 12, 10);
@@ -254,7 +254,7 @@ public sealed class Exercise2
     }
 
     [Fact]
-    public async Task Ex22_Implement_GetAllFlightInstancesWithinDateTimeLeaveRange_method_of_FlightInstanceService()
+    public async Task Ex22_Implement_GetAllFlightInstancesWithinDateTimeLeaveRangeAsync_method_of_FlightInstanceService()
     {
         // Arrange
         DateTime StartDateTimeLeave = new(2016, 06, 15);
@@ -265,15 +265,15 @@ public sealed class Exercise2
 
         // Assert
         Assert.Empty(actual);
-        Assert.Equal("GetAllFlightInstancesWithinDateTimeLeaveRange failure: No FlightInstance has been found in database", _flightInstanceService.ErrorMessage);
+        Assert.Equal("GetAllFlightInstancesWithinDateTimeLeaveRangeAsync failure: No FlightInstance has been found in database", _flightInstanceService.ErrorMessage);
     }
 
     #endregion
 
-    #region 3. FlightInstanceService - GetAllFlightInstancesServedByPlaneManufacturer
+    #region 3. FlightInstanceService - GetAllFlightInstancesServedByPlaneManufacturerAsync
 
     [Fact]
-    public async Task Ex31_Implement_GetAllFlightInstancesServedByPlaneManufacturer_method_of_FlightInstanceService()
+    public async Task Ex31_Implement_GetAllFlightInstancesServedByPlaneManufacturerAsync_method_of_FlightInstanceService()
     {
 
         // Arrange
@@ -335,7 +335,7 @@ public sealed class Exercise2
     }
 
     [Fact]
-    public async Task Ex32_Implement_GetAllFlightInstancesServedByPlaneManufacturer_method_of_FlightInstanceService()
+    public async Task Ex32_Implement_GetAllFlightInstancesServedByPlaneManufacturerAsync_method_of_FlightInstanceService()
     {
         // Arrange
         const string PlaneManufacturerName = "Messerschmitt";
@@ -345,7 +345,7 @@ public sealed class Exercise2
 
         // Assert
         Assert.Empty(actual);
-        Assert.Equal("GetAllFlightInstancesServedByPlaneManufacturer failure: No FlightInstance has been found in database", _flightInstanceService.ErrorMessage);
+        Assert.Equal("GetAllFlightInstancesServedByPlaneManufacturerAsync failure: No FlightInstance has been found in database", _flightInstanceService.ErrorMessage);
     }
 
     #endregion
@@ -353,7 +353,7 @@ public sealed class Exercise2
     #region 4. FlightInstanceService - UpdateFlightInstanceCoPilot
 
     [Fact]
-    public async Task Ex41_Implement_UpdateFlightInstanceCoPilot_method_of_FlightInstanceService()
+    public async Task Ex41_Implement_UpdateFlightInstanceCoPilotAsync_method_of_FlightInstanceService()
     {
 
         // Arrange
@@ -374,7 +374,7 @@ public sealed class Exercise2
     }
 
     [Fact]
-    public async Task Ex42_Implement_UpdateFlightInstanceCoPilot_method_of_FlightInstanceService()
+    public async Task Ex42_Implement_UpdateFlightInstanceCoPilotAsync_method_of_FlightInstanceService()
     {
         // Arrange
         const string FlightNo = "FK001";
@@ -387,7 +387,7 @@ public sealed class Exercise2
 
         // Assert
         Assert.Equal(0, actual);
-        Assert.Equal("UpdateFlightInstanceCoPilot failure: No FlightInstance has been found in database", _flightInstanceService.ErrorMessage);
+        Assert.Equal("UpdateFlightInstanceCoPilotAsync failure: No FlightInstance has been found in database", _flightInstanceService.ErrorMessage);
     }
 
     #endregion
@@ -395,7 +395,7 @@ public sealed class Exercise2
     #region 5. FlightInstanceService - SetDelayForFlightInstancesArrivingFromAirport
 
     [Fact]
-    public async Task Ex51_Implement_SetDelayForFlightInstancesArrivingFromAirport_method_of_FlightInstanceService()
+    public async Task Ex51_Implement_SetDelayForFlightInstancesArrivingFromAirportAsync_method_of_FlightInstanceService()
     {
 
         // Arrange
@@ -418,7 +418,7 @@ public sealed class Exercise2
     }
 
     [Fact]
-    public async Task Ex52_Implement_SetDelayForFlightInstancesArrivingFromAirport_method_of_FlightInstanceService()
+    public async Task Ex52_Implement_SetDelayForFlightInstancesArrivingFromAirportAsync_method_of_FlightInstanceService()
     {
         // Arrange
         const string AirportCode = "IJK";
@@ -429,7 +429,7 @@ public sealed class Exercise2
 
         // Assert
         Assert.Equal(0, actual);
-        Assert.Equal("SetDelayForFlightInstancesArrivingFromAirport failure: Delay cannot be zero", _flightInstanceService.ErrorMessage);
+        Assert.Equal("SetDelayForFlightInstancesArrivingFromAirportAsync failure: Delay cannot be zero", _flightInstanceService.ErrorMessage);
     }
 
     #endregion

@@ -24,7 +24,7 @@ public class FlightInstanceRepository : IFlightInstanceRepository
 
     #region READ
 
-    public async Task<FlightInstance?> GetByIdAsync(int instanceId)
+    public async Task<FlightInstance?> GetByInstanceIdAsync(int instanceId)
     {
         using SqlCommand command = new(SelectByInstanceIdCommandText);
         SqlParameter parameter = new($"@{nameof(FlightInstance.InstanceId)}", instanceId);

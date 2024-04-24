@@ -368,7 +368,7 @@ public sealed class Exercise2
         // Assert
         Assert.Equal(1, actual);
 
-        FlightInstance? flightInstance = await _flightInstanceRepository.GetByIdAsync(5);
+        FlightInstance? flightInstance = await _flightInstanceRepository.GetByInstanceIdAsync(5);
         Assert.NotNull(flightInstance);
         Assert.Equal(2, flightInstance.CoPilotAboardId);
     }
@@ -408,11 +408,11 @@ public sealed class Exercise2
         // Assert
         Assert.Equal(1, actual);
 
-        FlightInstance? firstFlightInstance = await _flightInstanceRepository.GetByIdAsync(11);
+        FlightInstance? firstFlightInstance = await _flightInstanceRepository.GetByInstanceIdAsync(11);
         Assert.NotNull(firstFlightInstance);
         Assert.Equal(new DateTime(2015, 12, 14, 12, 0, 0), firstFlightInstance.DateTimeArrive);
 
-        FlightInstance? secondFlightInstance = await _flightInstanceRepository.GetByIdAsync(16);
+        FlightInstance? secondFlightInstance = await _flightInstanceRepository.GetByInstanceIdAsync(16);
         Assert.NotNull(secondFlightInstance);
         Assert.Equal(new DateTime(2017, 12, 14, 12, 0, 0), secondFlightInstance.DateTimeArrive);
     }

@@ -131,7 +131,7 @@ public sealed class Exercise2
     }
 
     [Fact]
-    public async Task Ex12_GetAllFlightsDepartingFromCountryAsync_method_should_log_error_and_return_empty_list_if_no_flights_are_found()
+    public async Task Ex13_GetAllFlightsDepartingFromCountryAsync_method_should_log_error_and_return_empty_list_if_no_flights_are_found()
     {
         // Arrange
         const string CountryCode = "Neverland";

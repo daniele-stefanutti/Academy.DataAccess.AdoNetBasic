@@ -26,65 +26,8 @@ internal sealed class FlightService : BaseService, IFlightService
     }
 
     public async Task<FlightDto?> GetFlightWithLongestDistanceAsync()
-    {
-        try
-        {
-            Flight? flight = await _flightRepository.GetWithLongestDistanceAsync();
-			return flight != null ? await GetFlightDtoAsync(flight) : throw new NoDataException(nameof(Flight));
-        }
-        catch (Exception ex)
-        {
-            LogError($"{nameof(GetFlightWithLongestDistanceAsync)} failure: {ex.Message}");
-            return null;
-        }
-    }
+        => throw new NotImplementedException();
 
     public async Task<IReadOnlyList<FlightDto>> GetAllFlightsDepartingFromCountryAsync(string countryCode)
-    {
-		try
-		{
-			IReadOnlyList<Flight> flights = await _flightRepository.GetDepartingFromCountryAsync(countryCode);
-
-            if (!flights.Any())
-                throw new NoDataException(nameof(Flight));
-
-            List<FlightDto> results = new();
-
-			foreach (Flight flight in flights)
-				results.Add(await GetFlightDtoAsync(flight));
-
-			return results;
-        }
-		catch (Exception ex)
-		{
-			LogError($"{nameof(GetAllFlightsDepartingFromCountryAsync)} failure: {ex.Message}");
-			return Array.Empty<FlightDto>();
-		}
-    }
-
-    #region Locals
-
-    private async Task<FlightDto> GetFlightDtoAsync(Flight flight)
-	{
-		AirportDto departureAirport = await GetAirportDtoAsync(flight.FlightArriveFrom);
-		AirportDto arrivalAirport = await GetAirportDtoAsync(flight.FlightDepartTo);
-		return FlightMapper.Map(flight, departureAirport, arrivalAirport);
-    }
-
-	private async Task<AirportDto> GetAirportDtoAsync(string airportCode)
-	{
-		Airport? airport = await _airportRepository.GetByAirportCodeAsync(airportCode)
-			?? throw new ItemNotFoundException(nameof(Airport), airportCode);
-
-		string countryName = await GetCountryNameAsync(airport.CountryCode);
-		return AirportMapper.Map(airport, countryName);
-    }
-
-	private async Task<string> GetCountryNameAsync(string countryCode)
-	{
-		Country? country = await _countryRepository.GetByCountryCodeAsync(countryCode);
-		return country?.CountryName ?? throw new ItemNotFoundException(nameof(Country), countryCode);
-    }
-
-    #endregion
+        => throw new NotImplementedException();
 }

@@ -1,7 +1,4 @@
-﻿using AdoNetBasic.Extensions;
-using AdoNetBasic.Models;
-using System.Data;
-using System.Data.SqlClient;
+﻿using AdoNetBasic.Models;
 
 namespace AdoNetBasic.Repositories;
 
